@@ -5,8 +5,12 @@ import sys
 import importlib.util
 import pytz
 import requests
+import time
+from yaspin import yaspin
 
-packages = ['pytz', 'requests']
+spinner = yaspin(text="Searching...", color="cyan")
+
+packages = ['pytz', 'requests', 'yaspin']
 missing_packages = [package for package in packages if importlib.util.find_spec(package) is None]
 
 if missing_packages:
@@ -106,7 +110,7 @@ def get_world_time(timezone):
 
 def main():
     try:
-        country_timezones = load_country_timezones_from_db("/database/country.db")
+        country_timezones = load_country_timezones_from_db("./database/country.db")
         print("\n")
         while True:
             search_input = input("Enter a country or timezone to get the current time (or 'quit' to exit): ").strip()
@@ -119,6 +123,10 @@ def main():
                 print(f"{ERROR_EMOJI} Error: Please enter a country or timezone.")
                 print("\n")
                 continue
+
+            spinner.start()
+            time.sleep(3) 
+            spinner.stop()
 
             if '/' in search_input:
                 timezones = [search_input]

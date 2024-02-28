@@ -110,7 +110,7 @@ six==1.14.0
 soupsieve==2.4
 spinners==0.0.24
 systemd-python==234
-termcolor==2.2.0
+termcolor==2.4.0
 toml==0.10.2
 tomli==2.0.1
 types-requests==2.25.1
@@ -128,4 +128,5 @@ websocket-client==1.6.3
 Werkzeug==2.2.3
 wrapt==1.11.2
 xkit==0.0.0
+yaspin==2.5.0
 zipp==3.15.0
