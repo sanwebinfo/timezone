@@ -2,7 +2,6 @@ import datetime
 import json
 import sqlite3
 import sys
-import csv
 import importlib.util
 import pytz
 import requests
@@ -135,7 +134,7 @@ def main():
     except KeyboardInterrupt:
         print("\nProgram terminated by user.")
     except Exception as e:
-        print(f"An error occurred")
+        print("\nAn error occurred")
 
 if __name__ == "__main__":
     main()
