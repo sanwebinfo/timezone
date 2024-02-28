@@ -26,4 +26,4 @@ def sqlite_to_json(db_file, output_file):
     except sqlite3.Error as e:
         print("Error:", e)
 
-sqlite_to_json("../database/country.db", "../database/country.json")
+sqlite_to_json("../database/country.db", "../database/data.json")

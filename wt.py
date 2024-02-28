@@ -54,15 +54,7 @@ def load_country_timezones_from_db(db_file):
         print(f"{ERROR_EMOJI} Error loading data from SQLite database: {e}")
         print(f"{INFO_EMOJI} Attempting to load from fallback sources...")
 
-        fallback_data = load_country_timezones_from_url("")
-        if fallback_data:
-            return fallback_data
-
-        fallback_data = load_country_timezones_from_json("")
-        if fallback_data:
-            return fallback_data
-
-        fallback_data = load_country_timezones_from_csv("")
+        fallback_data = load_country_timezones_from_url("https://sanwebinfo.github.io/timezone/database/country.json")
         if fallback_data:
             return fallback_data
 
@@ -79,31 +71,6 @@ def load_country_timezones_from_url(url):
             return None
     except Exception as e:
         print(f"{ERROR_EMOJI} Error loading data from URL: {e}")
-        return None
-
-def load_country_timezones_from_json(json_file):
-    try:
-        with open(json_file, "r") as file:
-            data = json.load(file)
-            return {country.lower(): timezones for country, timezones in data.items()}
-    except FileNotFoundError:
-        print(f"{ERROR_EMOJI} JSON file not found: {json_file}")
-        return None
-    except Exception as e:
-        print(f"{ERROR_EMOJI} Error loading data from JSON file: {e}")
-        return None
-
-def load_country_timezones_from_csv(csv_file):
-    try:
-        with open(csv_file, "r") as file:
-            reader = csv.DictReader(file)
-            data = {row["country"].lower(): json.loads(row["timezones"]) for row in reader}
-            return data
-    except FileNotFoundError:
-        print(f"{ERROR_EMOJI} CSV file not found: {csv_file}")
-        return None
-    except Exception as e:
-        print(f"{ERROR_EMOJI} Error loading data from CSV file: {e}")
         return None
 
 def get_timezones_for_country(country, country_timezones):

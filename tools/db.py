@@ -18,5 +18,5 @@ def save_country_timezones_to_json(filename):
         json.dump(country_timezones, file)
 
 if __name__ == "__main__":
-    save_country_timezones_to_json("../database/data.json")
-    print("Country database has been created and saved to data.json")
+    save_country_timezones_to_json("../database/country.json")
+    print("Country database has been created and saved to country.json")
