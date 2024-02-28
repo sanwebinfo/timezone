@@ -106,7 +106,7 @@ def get_world_time(timezone):
 
 def main():
     try:
-        country_timezones = load_country_timezones_from_db("./database/country.db")
+        country_timezones = load_country_timezones_from_db("/database/country.db")
         print("\n")
         while True:
             search_input = input("Enter a country or timezone to get the current time (or 'quit' to exit): ").strip()
@@ -132,9 +132,13 @@ def main():
                         print(f"The current time in {GREEN}{timezone}{RESET} is: {RED}{time_now}{RESET}")
                         print("\n")
     except KeyboardInterrupt:
+        print("\n")
         print("\nProgram terminated by user.")
+        print("\n")
     except Exception as e:
+        print("\n")
         print("\nAn error occurred")
+        print("\n")
 
 if __name__ == "__main__":
     main()
