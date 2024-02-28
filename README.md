@@ -46,9 +46,9 @@ python3 wt.py
 
 ## Database
 
-- all the timezone and country was stored in the folder `/database`
-- `db`, `JSON`, and `CSV` data files
-- Database built using sqlite3, pytz and pycountry Module
+- all the timezone and country zone name was stored in the folder `/database`
+- stored as `db`, `JSON`, and `CSV` data files
+- Database was built using sqlite3, pytz and pycountry Module
 
 ## LICENSE
 
