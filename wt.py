@@ -51,8 +51,8 @@ def load_country_timezones_from_db(db_file):
         conn.close()
         return {country.lower(): json.loads(timezones) for country, timezones in country_timezones.items()}
     except sqlite3.Error as e:
-        print(f"{ERROR_EMOJI} Error loading data from SQLite database: {e}")
-        print(f"{INFO_EMOJI} Attempting to load from fallback sources...")
+        # print(f"{ERROR_EMOJI} Error loading data from SQLite database: {e}")
+        print(f"{INFO_EMOJI} load data from fallback sources...")
 
         fallback_data = load_country_timezones_from_url("https://sanwebinfo.github.io/timezone/database/country.json")
         if fallback_data:
@@ -109,28 +109,33 @@ def main():
     try:
         country_timezones = load_country_timezones_from_db("./database/country.db")
         print("\n")
-        search_input = input("Enter a country or timezone to get the current time: ")
-        print("\n")
-        search_input = search_input.strip()
-        if not search_input:
-            print(f"{ERROR_EMOJI} Error: Please enter a country or timezone.")
+        while True:
+            search_input = input("Enter a country or timezone to get the current time (or 'quit' to exit): ").strip()
             print("\n")
-            return
 
-        timezones = None
-        if '/' in search_input:
-            timezones = [search_input]
-        else: 
-            timezones = get_timezones_for_country(search_input, country_timezones)
+            if search_input.lower() == 'quit':
+                break
 
-        if timezones is not None:
-            for timezone in timezones:
-                time_now = get_world_time(timezone)
-                if time_now is not None:
-                    print(f"The current time in {GREEN}{timezone}{RESET} is: {RED}{time_now}{RESET}")
-                    print("\n")
+            if not search_input:
+                print(f"{ERROR_EMOJI} Error: Please enter a country or timezone.")
+                print("\n")
+                continue
+
+            if '/' in search_input:
+                timezones = [search_input]
+            else: 
+                timezones = get_timezones_for_country(search_input, country_timezones)
+
+            if timezones is not None:
+                for timezone in timezones:
+                    time_now = get_world_time(timezone)
+                    if time_now is not None:
+                        print(f"The current time in {GREEN}{timezone}{RESET} is: {RED}{time_now}{RESET}")
+                        print("\n")
     except KeyboardInterrupt:
         print("\nProgram terminated by user.")
+    except Exception as e:
+        print(f"An error occurred")
 
 if __name__ == "__main__":
     main()
