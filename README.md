@@ -1,5 +1,7 @@
 # Timezone
 
+[![test](https://github.com/sanwebinfo/timezone/actions/workflows/test.yml/badge.svg)](https://github.com/sanwebinfo/timezone/actions/workflows/test.yml)  
+
 Search the country name or timezone to get the current date and time.  
 
 ## usage
