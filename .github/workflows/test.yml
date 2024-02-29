@@ -24,7 +24,7 @@ jobs:
         run: python -V
 
       - name: insall dev pack
-        run: apt install -y apparmor apturl
+        run: sudo apt install -y apparmor apturl
 
       - name: Upgrade PIP
         run:  python -m pip install --upgrade pip
