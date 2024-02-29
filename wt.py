@@ -55,7 +55,7 @@ def load_country_timezones_from_db(db_file):
         return {country.lower(): json.loads(timezones) for country, timezones in country_timezones.items()}
     except sqlite3.Error as e:
         # print(f"{ERROR_EMOJI} Error loading data from SQLite database: {e}")
-        print("ℹ️ load data from fallback sources...")
+        print("✅ load data from fallback sources...")
 
         fallback_data = load_country_timezones_from_url("https://sanwebinfo.github.io/timezone/database/country.json")
         if fallback_data:
@@ -82,7 +82,7 @@ def get_timezones_for_country(country, country_timezones):
     if len(matching_countries) == 1:
         return matching_countries[0][1]
     elif len(matching_countries) > 1:
-        print("ℹ️ Multiple matches found:")
+        print("✅ Multiple matches found:")
         print("\n")
         for matched_country, timezones in matching_countries:
             print(f"{BLUE}{matched_country.capitalize()}:")
