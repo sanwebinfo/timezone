@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 import sqlite3
 import sys
 import importlib.util
@@ -43,7 +44,6 @@ RED = "\033[91m"
 RESET = "\033[0m"
 
 ERROR_EMOJI = "❌"
-INFO_EMOJI = "ℹ️"
 
 def load_country_timezones_from_db(db_file):
     try:
@@ -55,7 +55,7 @@ def load_country_timezones_from_db(db_file):
         return {country.lower(): json.loads(timezones) for country, timezones in country_timezones.items()}
     except sqlite3.Error as e:
         # print(f"{ERROR_EMOJI} Error loading data from SQLite database: {e}")
-        print(f"{INFO_EMOJI} load data from fallback sources...")
+        print("ℹ️ load data from fallback sources...")
 
         fallback_data = load_country_timezones_from_url("https://sanwebinfo.github.io/timezone/database/country.json")
         if fallback_data:
@@ -82,7 +82,7 @@ def get_timezones_for_country(country, country_timezones):
     if len(matching_countries) == 1:
         return matching_countries[0][1]
     elif len(matching_countries) > 1:
-        print(f"{INFO_EMOJI} Multiple matches found:")
+        print("ℹ️ Multiple matches found:")
         print("\n")
         for matched_country, timezones in matching_countries:
             print(f"{BLUE}{matched_country.capitalize()}:")
@@ -107,38 +107,78 @@ def get_world_time(timezone):
         print(f"{ERROR_EMOJI} Error: Unknown timezone '{timezone}': {e}")
         print("\n")
         return None
+    
+def print_help():
+    print("\nUsage:")
+    print("\npython wt.py or python wt.py [DB_FILE_LOCATION]")
+    print("\nArguments:\n")
+    print("> python wt.py  # Using External JSON data as fallback database.")
+    print("> python wt.py ./database/country.db # DB_FILE Path to the SQLite database file containing country timezones.")
+    print('> python wt.py ./database/country.db "country_Name" # Search Timezone with your custom DB_FILE_PATH.')
+    print("> Use 'quit' to exit.\n")
 
-def main():
+def main(db_file="./database/country.db", search_input=None):
     try:
-        country_timezones = load_country_timezones_from_db("./database/country.db")
+
+        country_timezones = load_country_timezones_from_db(db_file)
         print("\n")
-        while True:
-            search_input = input("Enter a country or timezone to get the current time (or 'quit' to exit): ").strip()
-            print("\n")
 
-            if search_input.lower() == 'quit':
-                break
-
-            if not search_input:
-                print(f"{ERROR_EMOJI} Error: Please enter a country or timezone.")
+        if search_input:
+            while search_input.lower() != 'quit':
                 print("\n")
-                continue
 
-            spinner.start()
-            time.sleep(3) 
-            spinner.stop()
+                if not search_input:
+                    print(f"{ERROR_EMOJI} Error: Please enter a country or timezone.")
+                    print("\n")
+                    break
 
-            if '/' in search_input:
-                timezones = [search_input]
-            else: 
-                timezones = get_timezones_for_country(search_input, country_timezones)
+                spinner.start()
+                time.sleep(3) 
+                spinner.stop()
 
-            if timezones is not None:
-                for timezone in timezones:
-                    time_now = get_world_time(timezone)
-                    if time_now is not None:
-                        print(f"The current time in {GREEN}{timezone}{RESET} is: {RED}{time_now}{RESET}")
-                        print("\n")
+                if '/' in search_input:
+                    timezones = [search_input]
+                else: 
+                    timezones = get_timezones_for_country(search_input, country_timezones)
+
+                if timezones is not None:
+                    for timezone in timezones:
+                        time_now = get_world_time(timezone)
+                        if time_now is not None:
+                            print(f"The current time in {GREEN}{timezone}{RESET} is: {RED}{time_now}{RESET}")
+                            print("\n")
+
+                search_input = input("Enter a country or timezone to get the current time (or 'quit' to exit): ").strip()
+
+        else:
+            while True:
+                search_input = input("Enter a country or timezone to get the current time (or 'quit' to exit): ").strip()
+                print("\n")
+
+                if search_input.lower() == 'quit':
+                    break
+
+                if not search_input:
+                    print(f"{ERROR_EMOJI} Error: Please enter a country or timezone.")
+                    print("\n")
+                    continue
+
+                spinner.start()
+                time.sleep(3) 
+                spinner.stop()
+
+                if '/' in search_input:
+                    timezones = [search_input]
+                else: 
+                    timezones = get_timezones_for_country(search_input, country_timezones)
+
+                if timezones is not None:
+                    for timezone in timezones:
+                        time_now = get_world_time(timezone)
+                        if time_now is not None:
+                            print(f"The current time in {GREEN}{timezone}{RESET} is: {RED}{time_now}{RESET}")
+                            print("\n")
+                
     except KeyboardInterrupt:
         print("\n")
         print("\nProgram terminated by user.")
@@ -149,4 +189,19 @@ def main():
         print("\n")
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print_help()
+    else:
+        if len(sys.argv) > 2:
+            db_file = sys.argv[1]
+            search_input = sys.argv[2]
+            main(db_file, search_input)
+        elif len(sys.argv) > 1:
+            db_file = sys.argv[1]
+            if not os.path.isfile(db_file):
+              print("Error: The specified database file is not a valid file path.")
+              sys.exit(1)
+            else: 
+              main(db_file)
+        else:
+            main()

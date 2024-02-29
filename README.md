@@ -44,6 +44,12 @@ python3 wt.py
 
 ```
 
+- Learn more about this timezone search CLI
+
+```sh
+python wt.py -h
+```
+
 ## Database
 
 - all the timezone and country zone name was stored in the folder `/database`
