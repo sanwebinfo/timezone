@@ -9,13 +9,11 @@ Search the country name or timezone to get the current date and time.
 
 ```sh
 
+## Download the script file
 wget https://raw.githubusercontent.com/sanwebinfo/timezone/main/wt.py
 
+## Run the CLI
 python wt.py
-
-or
-
-python3 wt.py
 
 ```
 
@@ -29,18 +27,22 @@ git clone https://github.com/sanwebinfo/timezone.git
 cd timezone
 
 ## install Modules
-python3 -m pip install -r requirements.txt
-
-or
-
 python -m pip install -r requirements.txt
 
 ## Run the CLI
 python wt.py
 
-or
+```
 
-python3 wt.py
+- Downlaoad timezone database
+
+```sh
+
+## Download database file
+curl -sSLfOJ https://github.com/sanwebinfo/timezone/raw/main/database/country.db
+
+## specify the path of the database file
+python wt.py ./your_directory/country.db
 
 ```
 
