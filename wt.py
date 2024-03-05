@@ -57,7 +57,7 @@ def load_country_timezones_from_db(db_file):
         # print(f"{ERROR_EMOJI} Error loading data from SQLite database: {e}")
         print("✅ load data from fallback sources...")
 
-        fallback_data = load_country_timezones_from_url("https://sanwebinfo.github.io/timezone/database/country.json")
+        fallback_data = load_country_timezones_from_url("https://time.mskian.com/database/country.json")
         if fallback_data:
             return fallback_data
 

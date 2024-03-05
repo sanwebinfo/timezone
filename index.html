@@ -128,7 +128,7 @@ function searchTime() {
         return;
     }
 
-    fetch('https://sanwebinfo.github.io/timezone/database/country.json')
+    fetch('https://time.mskian.com/database/country.json')
         .then(response => response.json())
         .then(data => {
             const matches = [];
