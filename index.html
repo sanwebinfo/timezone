@@ -19,14 +19,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Encode+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
 
 <style>
+    html, body {
+        min-height: 100vh;
+    }
     body {
-        background-color: #fff;
+        background-color: #a7f0fd;
         color: #333;
         font-family: "Encode Sans SC", sans-serif;
         font-weight: 600;
-        height: 100vh;
+        padding-bottom: 20px;
     }
-
     h1, h2 {
         color: #333;
         font-family: "Encode Sans SC", sans-serif;
@@ -56,12 +58,11 @@
 
     .container {
         max-width: 600px;
-        margin: 1px auto;
+        margin: 0px auto;
         padding: 20px;
         border-radius: 10px;
         font-family: "Encode Sans SC", sans-serif;
     }
-
     .form-card {
         padding: 20px;
         border-radius: 10px;
@@ -98,13 +99,14 @@
         margin-top: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        background-color: #f3f3f3;
-        min-height: 100px;
+        background-color: #defce2;
     }
 </style>
 
 </head>
 <body>
+
+<section>
 <div class="container">
     <h1 class="text-center">Country Timezone Search</h1>
     <div class="form-card">
@@ -121,6 +123,7 @@
 
     <div id="results" class="mt-2"></div><br>
 </div>
+</section>
 
 <script>
 
